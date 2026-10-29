@@ -101,3 +101,57 @@ button:hover {
         width: 100%;
     }
 }
+
+/* Current Weather Card */
+
+.weather-section {
+    max-width: 650px;
+    margin: 30px auto 50px;
+    padding: 0 15px;
+    text-align: center;
+}
+
+.weather-section h2 {
+    margin-bottom: 20px;
+}
+
+.weather-card {
+    padding: 30px;
+    border-radius: 18px;
+    color: white;
+    background: linear-gradient(135deg, #0f172a, #2563eb);
+    box-shadow: 0 8px 25px #00000018;
+}
+
+.weather-card h3 {
+    font-size: 25px;
+}
+
+.temperature {
+    margin: 15px 0;
+    font-size: 54px;
+    font-weight: bold;
+}
+
+#weatherCondition {
+    font-size: 18px;
+    margin-bottom: 25px;
+}
+
+.weather-details {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.weather-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 15px;
+    min-width: 140px;
+    background: #ffffff20;
+    border-radius: 10px;
+}
+
