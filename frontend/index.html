@@ -1,140 +1,350 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <meta name="description" content="Weather Intelligence Pro - Advanced weather monitoring dashboard">
     <title>Weather Intelligence Pro</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-    <!-- Header Section -->
-    <header>
-        <h1>🌦️ Weather Intelligence Pro</h1>
-        <p>Your Smart Weather Dashboard</p>
-    </header>
+<div class="dashboard">
 
-    <main>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">☁</div>
+            <div>
+                <h2>Weather<span>Pro</span></h2>
+                <small>Intelligence Dashboard</small>
+            </div>
+        </div>
 
-        <!-- City Search Section -->
+        <nav class="sidebar-nav">
+            <p class="nav-heading">MENU</p>
+
+            <a href="#home" class="nav-link active">
+                <span>⌂</span> Overview
+            </a>
+
+            <a href="#current-weather" class="nav-link">
+                <span>☀</span> Current Weather
+            </a>
+
+            <a href="#air-quality-section" class="nav-link">
+                <span>◉</span> Air Quality
+            </a>
+
+            <a href="#hourly-section" class="nav-link">
+                <span>◷</span> Hourly Forecast
+            </a>
+
+            <a href="#daily-section" class="nav-link">
+                <span>▦</span> 7-Day Forecast
+            </a>
+
+            <a href="#analytics-section" class="nav-link">
+                <span>▥</span> Analytics
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="footer-icon">🌍</div>
+            <h4>Weather Intelligence</h4>
+            <p>Real-time weather information powered by Open-Meteo.</p>
+        </div>
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content" id="home">
+
+        <!-- TOP HEADER -->
+        <header class="top-header">
+            <div>
+                <p class="eyebrow">WEATHER OVERVIEW</p>
+                <h1>Weather Dashboard</h1>
+                <p class="header-subtitle">
+                    Monitor weather conditions and environmental insights.
+                </p>
+            </div>
+
+            <div class="header-status">
+                <span class="live-dot"></span>
+                Live Weather
+            </div>
+        </header>
+
+
+        <!-- SEARCH -->
         <section class="search-section">
-            <h2>Check Your Weather</h2>
-
             <form id="searchForm">
+                <span class="search-icon">⌕</span>
+
                 <input
                     type="text"
                     id="cityInput"
-                    placeholder="Enter city name"
+                    placeholder="Search city... e.g. Pune, Mumbai"
+                    autocomplete="off"
                     required
                 >
 
-                <button type="submit">Search</button>
+                <button type="submit" id="searchButton">
+                    Search
+                </button>
             </form>
 
-            <p id="statusMessage"></p>
+            <p id="statusMessage" role="status"></p>
         </section>
 
 
-        <!-- Current Weather Section -->
-        <section class="weather-section" id="weatherSection">
+        <!-- CURRENT WEATHER -->
+        <section class="current-section" id="current-weather">
 
-            <h2>Current Weather</h2>
-
-            <div class="weather-card">
-
-                <h3 id="weatherCity">Pune</h3>
-
-                <div class="temperature">
-                    <span id="temperature">28</span>°C
+            <div class="section-heading">
+                <div>
+                    <h2>Current Weather</h2>
+                    <p>Current atmospheric conditions</p>
                 </div>
 
-                <p id="weatherCondition">Partly Cloudy</p>
+                <span class="section-tag">LIVE DATA</span>
+            </div>
 
-                <!-- Feels Like Temperature -->
-                <p class="feels-like">
-                    Feels Like:
-                    <strong id="feelsLike">--</strong>°C
-                </p>
+            <div class="current-weather-card">
 
-                <!-- Last Updated Time -->
-                <p class="last-updated" id="lastUpdated">
-                    Last updated: --
-                </p>
-
-
-                <!-- Weather Details -->
-                <div class="weather-details">
-
-                    <!-- Humidity -->
-                    <div class="weather-detail">
-                        <span>💧 Humidity</span>
-                        <strong id="humidity">--%</strong>
+                <div class="weather-main">
+                    <div>
+                        <p class="location-label">CURRENT LOCATION</p>
+                        <h2 id="weatherCity">Pune</h2>
+                        <p id="lastUpdated">Waiting for update...</p>
                     </div>
 
-                    <!-- Wind Speed -->
-                    <div class="weather-detail">
-                        <span>💨 Wind Speed</span>
-                        <strong id="windSpeed">-- km/h</strong>
-                    </div>
+                    <div class="weather-icon" id="weatherIcon">☀️</div>
+                </div>
 
-                    <!-- Precipitation -->
-                    <div class="weather-detail">
-                        <span>🌧️ Precipitation</span>
-                        <strong id="precipitation">-- mm</strong>
-                    </div>
-
-                    <!-- Sunrise -->
-                    <div class="weather-detail">
-                        <span>🌅 Sunrise</span>
-                        <strong id="sunrise">--:--</strong>
-                    </div>
-
-                    <!-- Sunset -->
-                    <div class="weather-detail">
-                        <span>🌇 Sunset</span>
-                        <strong id="sunset">--:--</strong>
-                    </div>
-
+                <div class="temperature-area">
+                    <h1><span id="temperature">--</span><sup>°C</sup></h1>
+                    <p id="weatherCondition">Loading weather...</p>
+                    <p class="feels-like">
+                        Feels like <strong id="feelsLike">--</strong>°C
+                    </p>
                 </div>
 
             </div>
-
         </section>
 
 
-        <!-- Hourly Weather Forecast -->
-        <section class="hourly-section">
+        <!-- WEATHER HIGHLIGHTS -->
+        <section class="details-section" id="weather-details">
 
-            <h2>Hourly Forecast</h2>
+            <div class="section-heading">
+                <div>
+                    <h2>Weather Highlights</h2>
+                    <p>Important weather measurements</p>
+                </div>
+            </div>
 
-            <div class="hourly-container" id="hourlyForecast">
-                <p>Hourly forecast will appear here.</p>
+            <div class="details-grid">
+
+                <div class="detail-card">
+                    <div class="detail-top">
+                        <span>Humidity</span>
+                        <span>💧</span>
+                    </div>
+                    <h3><span id="humidity">--</span><small>%</small></h3>
+                    <p>Relative humidity</p>
+                </div>
+
+                <div class="detail-card">
+                    <div class="detail-top">
+                        <span>Wind Speed</span>
+                        <span>🌬️</span>
+                    </div>
+                    <h3><span id="windSpeed">--</span><small> km/h</small></h3>
+                    <p>Current wind speed</p>
+                </div>
+
+                <div class="detail-card">
+                    <div class="detail-top">
+                        <span>Precipitation</span>
+                        <span>🌧️</span>
+                    </div>
+                    <h3><span id="precipitation">--</span><small> mm</small></h3>
+                    <p>Current precipitation</p>
+                </div>
+
+                <div class="detail-card">
+                    <div class="detail-top">
+                        <span>UV Index</span>
+                        <span>☀️</span>
+                    </div>
+                    <h3><span id="uvIndex">--</span></h3>
+                    <p id="uvLevel">UV information</p>
+                </div>
+
+                <div class="detail-card">
+                    <div class="detail-top">
+                        <span>Sunrise</span>
+                        <span>🌅</span>
+                    </div>
+                    <h3 class="time-value" id="sunrise">--</h3>
+                    <p>Today's sunrise</p>
+                </div>
+
+                <div class="detail-card">
+                    <div class="detail-top">
+                        <span>Sunset</span>
+                        <span>🌇</span>
+                    </div>
+                    <h3 class="time-value" id="sunset">--</h3>
+                    <p>Today's sunset</p>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- AIR QUALITY -->
+        <section class="analytics-section" id="air-quality-section">
+
+            <div class="section-heading">
+                <div>
+                    <h2>Air Quality Monitoring</h2>
+                    <p>Live air pollution measurements</p>
+                </div>
+
+                <span class="section-tag">AIR QUALITY</span>
+            </div>
+
+            <div class="analytics-grid">
+
+                <div class="analytics-card aqi-card">
+                    <span class="analytics-label">US AIR QUALITY INDEX</span>
+
+                    <strong id="aqiValue">--</strong>
+
+                    <span id="aqiStatus">Waiting for data</span>
+
+                    <div class="aqi-scale">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+
+                    <small>Lower values indicate better air quality</small>
+                </div>
+
+                <div class="analytics-card">
+                    <span class="analytics-label">PM2.5</span>
+                    <strong id="pm25Value">--</strong>
+                    <small>Fine particulate matter (µg/m³)</small>
+                </div>
+
+                <div class="analytics-card">
+                    <span class="analytics-label">PM10</span>
+                    <strong id="pm10Value">--</strong>
+                    <small>Coarse particulate matter (µg/m³)</small>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- WEATHER ANALYTICS -->
+        <section class="analytics-section" id="analytics-section">
+
+            <div class="section-heading">
+                <div>
+                    <h2>Weather Analytics</h2>
+                    <p>Visual analysis of upcoming weather conditions</p>
+                </div>
+
+                <span class="section-tag">ANALYTICS</span>
+            </div>
+
+            <div class="charts-grid">
+
+                <div class="chart-card">
+                    <h3>Temperature Trend</h3>
+                    <p>Hourly temperature in °C</p>
+
+                    <div id="temperatureChart" class="bar-chart">
+                        <p>Temperature chart will appear here.</p>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <h3>Wind Speed Trend</h3>
+                    <p>Hourly wind speed in km/h</p>
+
+                    <div id="windChart" class="bar-chart">
+                        <p>Wind chart will appear here.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- HOURLY FORECAST -->
+        <section class="forecast-section" id="hourly-section">
+
+            <div class="section-heading">
+                <div>
+                    <h2>Hourly Forecast</h2>
+                    <p>Weather conditions for the next 8 hours</p>
+                </div>
+
+                <span class="section-tag">HOURLY</span>
+            </div>
+
+            <div class="hourly-grid" id="hourlyForecast">
+                <p>Loading hourly forecast...</p>
             </div>
 
         </section>
 
 
-        <!-- 7-Day Weather Forecast -->
-        <section class="daily-section">
+        <!-- DAILY FORECAST -->
+        <section class="forecast-section" id="daily-section">
 
-            <h2>7-Day Forecast</h2>
+            <div class="section-heading">
+                <div>
+                    <h2>7-Day Forecast</h2>
+                    <p>Upcoming weekly weather predictions</p>
+                </div>
 
-            <div class="daily-container" id="dailyForecast">
-                <p>7-day forecast will appear here.</p>
+                <span class="section-tag">WEEKLY</span>
+            </div>
+
+            <div class="daily-list" id="dailyForecast">
+                <p>Loading weekly forecast...</p>
             </div>
 
         </section>
+
+
+        <!-- FOOTER -->
+        <footer class="dashboard-footer">
+            <p>Weather Intelligence Pro</p>
+            <p>Weather data provided by Open-Meteo API</p>
+        </footer>
 
     </main>
 
+</div>
 
-    <!-- JavaScript File -->
-    <script src="js/app.js"></script>
-
+<script src="js/app.js"></script>
 </body>
 </html>
