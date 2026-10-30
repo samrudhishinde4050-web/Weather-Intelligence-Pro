@@ -80,6 +80,16 @@ async function getWeather(city) {
         document.getElementById("weatherCondition").textContent =
             getWeatherCondition(current.weather_code);
 
+            
+// Display feels-like temperature
+document.getElementById("feelsLike").textContent =
+    Math.round(current.apparent_temperature);
+
+// Display last updated time
+document.getElementById("lastUpdated").textContent =
+    `Last updated: ${current.time.replace("T", " ")}`;
+
+
         document.getElementById("humidity").textContent =
             `${current.relative_humidity_2m}%`;
 
