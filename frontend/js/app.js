@@ -32,6 +32,53 @@ function getWeatherCondition(code) {
     return weatherConditions[code] || "Weather information unavailable";
 }
 
+// Display next 8 hours of weather
+function displayHourlyForecast(hourly, currentTime) {
+
+    const hourlyContainer =
+        document.getElementById("hourlyForecast");
+
+    const startIndex = hourly.time.findIndex(
+        time => time >= currentTime
+    );
+
+    if (startIndex === -1) {
+        hourlyContainer.textContent =
+            "Hourly forecast is unavailable.";
+        return;
+    }
+
+    const nextHours = hourly.time.slice(
+        startIndex, startIndex + 8
+    );
+
+    hourlyContainer.innerHTML = nextHours.map((time, index) => {
+
+        const actualIndex = startIndex + index;
+
+        const temperature = Math.round(
+            hourly.temperature_2m[actualIndex]
+        );
+
+        const weatherCode =
+            hourly.weather_code[actualIndex];
+
+        const condition =
+            getWeatherCondition(weatherCode);
+
+        const hour = time.substring(11, 16);
+
+        return `
+            <div class="hourly-card">
+                <p class="hour">${hour}</p>
+                <p class="hour-icon">${condition.split(" ").slice(-1)[0]}</p>
+                <p class="hour-temp">${temperature}°C</p>
+            </div>
+        `;
+
+    }).join("");
+}
+
 // Fetch weather information for a city
 async function getWeather(city) {
     try {
@@ -58,8 +105,10 @@ async function getWeather(city) {
         const longitude = location.longitude;
 
         // Step 2: Get current weather
-       const weatherUrl =
-    `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,precipitation&timezone=auto`;
+      
+const weatherUrl =
+    `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,precipitation&hourly=temperature_2m,weather_code&timezone=auto`;
+
 
         const weatherResponse = await fetch(weatherUrl);
 
@@ -95,6 +144,12 @@ document.getElementById("lastUpdated").textContent =
 
         document.getElementById("precipitation").textContent =
     `${current.precipitation} mm`;
+    
+displayHourlyForecast(
+    weatherData.hourly,
+    current.time
+);
+
 
         statusMessage.textContent = "Weather updated successfully!";
 

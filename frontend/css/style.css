@@ -168,4 +168,54 @@ button:hover {
     opacity: 0.85;
 }
 
+/* Hourly Weather Forecast */
+
+.hourly-section {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 25px;
+}
+
+.hourly-section h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.hourly-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.hourly-card {
+    background: white;
+    padding: 20px 10px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 12px #00000012;
+}
+
+.hourly-card .hour {
+    font-size: 15px;
+    color: #64748b;
+}
+
+.hourly-card .hour-icon {
+    font-size: 28px;
+    margin: 12px 0;
+}
+
+.hourly-card .hour-temp {
+    font-size: 20px;
+    font-weight: bold;
+    color: #2563eb;
+}
+
+@media (max-width: 600px) {
+    .hourly-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
 
