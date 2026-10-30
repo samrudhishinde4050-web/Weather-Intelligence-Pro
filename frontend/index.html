@@ -1,18 +1,27 @@
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Weather Intelligence Pro</title>
+
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
+
+    <!-- Header Section -->
     <header>
         <h1>🌦️ Weather Intelligence Pro</h1>
         <p>Your Smart Weather Dashboard</p>
     </header>
 
     <main>
+
+        <!-- City Search Section -->
         <section class="search-section">
             <h2>Check Your Weather</h2>
 
@@ -23,78 +32,109 @@
                     placeholder="Enter city name"
                     required
                 >
+
                 <button type="submit">Search</button>
             </form>
 
             <p id="statusMessage"></p>
         </section>
-        
-<section class="weather-section" id="weatherSection">
-    <h2>Current Weather</h2>
-
-    <div class="weather-card">
-        <h3 id="weatherCity">Pune</h3>
-
-        <div class="temperature">
-            <span id="temperature">28</span>°C
-        </div>
-
-        <p id="weatherCondition">Partly Cloudy</p>
-        
-<p class="feels-like">
-    Feels Like: <strong id="feelsLike">--</strong>°C
-</p>
-
-<p class="last-updated" id="lastUpdated">
-    Last updated: --
-</p>
 
 
-        <div class="weather-details">
-            <div class="weather-detail">
-                <span>💧 Humidity</span>
-                <strong id="humidity">65%</strong>
+        <!-- Current Weather Section -->
+        <section class="weather-section" id="weatherSection">
+
+            <h2>Current Weather</h2>
+
+            <div class="weather-card">
+
+                <h3 id="weatherCity">Pune</h3>
+
+                <div class="temperature">
+                    <span id="temperature">28</span>°C
+                </div>
+
+                <p id="weatherCondition">Partly Cloudy</p>
+
+                <!-- Feels Like Temperature -->
+                <p class="feels-like">
+                    Feels Like:
+                    <strong id="feelsLike">--</strong>°C
+                </p>
+
+                <!-- Last Updated Time -->
+                <p class="last-updated" id="lastUpdated">
+                    Last updated: --
+                </p>
+
+
+                <!-- Weather Details -->
+                <div class="weather-details">
+
+                    <!-- Humidity -->
+                    <div class="weather-detail">
+                        <span>💧 Humidity</span>
+                        <strong id="humidity">--%</strong>
+                    </div>
+
+                    <!-- Wind Speed -->
+                    <div class="weather-detail">
+                        <span>💨 Wind Speed</span>
+                        <strong id="windSpeed">-- km/h</strong>
+                    </div>
+
+                    <!-- Precipitation -->
+                    <div class="weather-detail">
+                        <span>🌧️ Precipitation</span>
+                        <strong id="precipitation">-- mm</strong>
+                    </div>
+
+                    <!-- Sunrise -->
+                    <div class="weather-detail">
+                        <span>🌅 Sunrise</span>
+                        <strong id="sunrise">--:--</strong>
+                    </div>
+
+                    <!-- Sunset -->
+                    <div class="weather-detail">
+                        <span>🌇 Sunset</span>
+                        <strong id="sunset">--:--</strong>
+                    </div>
+
+                </div>
+
             </div>
 
-            <div class="weather-detail">
-                <span>💨 Wind Speed</span>
-                <strong id="windSpeed">12 km/h</strong>
+        </section>
+
+
+        <!-- Hourly Weather Forecast -->
+        <section class="hourly-section">
+
+            <h2>Hourly Forecast</h2>
+
+            <div class="hourly-container" id="hourlyForecast">
+                <p>Hourly forecast will appear here.</p>
             </div>
 
-            
-<div class="weather-detail">
-    <span>🌧️ Precipitation</span>
-    <strong id="precipitation">-- mm</strong>
-</div>
-
-        </div>
-    </div>
-</section>
-
-<!-- Hourly Weather Forecast -->
-
-<section class="hourly-section">
-    <h2>Hourly Forecast</h2>
-
-    <div class="hourly-container" id="hourlyForecast">
-        <p>Hourly forecast will appear here.</p>
-    </div>
-</section>
-
-<!-- 7-Day Weather Forecast -->
-
-<section class="daily-section">
-    <h2>7-Day Forecast</h2>
-
-    <div class="daily-container" id="dailyForecast">
-        <p>7-day forecast will appear here.</p>
-    </div>
-</section>
+        </section>
 
 
+        <!-- 7-Day Weather Forecast -->
+        <section class="daily-section">
+
+            <h2>7-Day Forecast</h2>
+
+            <div class="daily-container" id="dailyForecast">
+                <p>7-day forecast will appear here.</p>
+            </div>
+
+        </section>
 
     </main>
 
+
+    <!-- JavaScript File -->
     <script src="js/app.js"></script>
+
 </body>
 </html>

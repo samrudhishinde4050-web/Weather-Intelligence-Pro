@@ -17,19 +17,29 @@ function getWeatherCondition(code) {
         51: "Light Drizzle 🌦️",
         53: "Moderate Drizzle 🌦️",
         55: "Dense Drizzle 🌧️",
+        56: "Light Freezing Drizzle 🌧️",
+        57: "Dense Freezing Drizzle 🌧️",
         61: "Slight Rain 🌧️",
         63: "Moderate Rain 🌧️",
         65: "Heavy Rain 🌧️",
+        66: "Light Freezing Rain 🌧️",
+        67: "Heavy Freezing Rain 🌧️",
         71: "Slight Snow ❄️",
         73: "Moderate Snow ❄️",
         75: "Heavy Snow ❄️",
+        77: "Snow Grains ❄️",
         80: "Rain Showers 🌦️",
         81: "Moderate Rain Showers 🌧️",
         82: "Violent Rain Showers ⛈️",
-        95: "Thunderstorm ⛈️"
+        85: "Slight Snow Showers ❄️",
+        86: "Heavy Snow Showers ❄️",
+        95: "Thunderstorm ⛈️",
+        96: "Thunderstorm with Hail ⛈️",
+        99: "Heavy Thunderstorm with Hail ⛈️"
     };
 
-    return weatherConditions[code] || "Weather information unavailable";
+    return weatherConditions[code] ||
+        "Weather information unavailable";
 }
 
 // Display next 8 hours of weather
@@ -63,11 +73,9 @@ function displayHourlyForecast(hourly, currentTime) {
             hourly.temperature_2m[actualIndex]
         );
 
-        const weatherCode =
-            hourly.weather_code[actualIndex];
-
-        const condition =
-            getWeatherCondition(weatherCode);
+        const condition = getWeatherCondition(
+            hourly.weather_code[actualIndex]
+        );
 
         const hour = time.substring(11, 16);
         const icon = condition.split(" ").slice(-1)[0];
@@ -91,7 +99,7 @@ function displayDailyForecast(daily) {
         daily.time.length === 0) {
         if (dailyContainer) {
             dailyContainer.textContent =
-                "Daily forecast is unavailable.";
+                "7-day forecast is unavailable.";
         }
         return;
     }
@@ -103,8 +111,9 @@ function displayDailyForecast(daily) {
             weekday: "short"
         });
 
-        const condition =
-            getWeatherCondition(daily.weather_code[index]);
+        const condition = getWeatherCondition(
+            daily.weather_code[index]
+        );
 
         const icon = condition.split(" ").slice(-1)[0];
 
@@ -161,7 +170,7 @@ async function getWeather(city) {
 
         // Step 2: Get current, hourly and daily weather
         const weatherUrl =
-            `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,precipitation&hourly=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&forecast_days=7&timezone=auto`;
+            `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,precipitation&hourly=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset&forecast_days=7&timezone=auto`;
 
         const weatherResponse = await fetch(weatherUrl);
 
@@ -173,6 +182,7 @@ async function getWeather(city) {
 
         const weatherData = await weatherResponse.json();
         const current = weatherData.current;
+        const daily = weatherData.daily;
 
         // Step 3: Update current weather
         document.getElementById("weatherCity").textContent =
@@ -204,6 +214,22 @@ async function getWeather(city) {
         document.getElementById("precipitation").textContent =
             `${current.precipitation} mm`;
 
+        // Display sunrise time
+        if (daily.sunrise && daily.sunrise[0]) {
+            const sunriseTime = daily.sunrise[0];
+
+            document.getElementById("sunrise").textContent =
+                sunriseTime.substring(11, 16);
+        }
+
+        // Display sunset time
+        if (daily.sunset && daily.sunset[0]) {
+            const sunsetTime = daily.sunset[0];
+
+            document.getElementById("sunset").textContent =
+                sunsetTime.substring(11, 16);
+        }
+
         // Display hourly forecast
         displayHourlyForecast(
             weatherData.hourly,
@@ -211,13 +237,14 @@ async function getWeather(city) {
         );
 
         // Display 7-day forecast
-        displayDailyForecast(weatherData.daily);
+        displayDailyForecast(daily);
 
         statusMessage.textContent =
             "Weather updated successfully!";
 
     } catch (error) {
         statusMessage.textContent = error.message;
+        console.error("Weather Error:", error);
     }
 }
 
