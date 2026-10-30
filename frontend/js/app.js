@@ -34,9 +34,12 @@ function getWeatherCondition(code) {
 
 // Display next 8 hours of weather
 function displayHourlyForecast(hourly, currentTime) {
-
     const hourlyContainer =
         document.getElementById("hourlyForecast");
+
+    if (!hourlyContainer || !hourly || !hourly.time) {
+        return;
+    }
 
     const startIndex = hourly.time.findIndex(
         time => time >= currentTime
@@ -49,11 +52,11 @@ function displayHourlyForecast(hourly, currentTime) {
     }
 
     const nextHours = hourly.time.slice(
-        startIndex, startIndex + 8
+        startIndex,
+        startIndex + 8
     );
 
     hourlyContainer.innerHTML = nextHours.map((time, index) => {
-
         const actualIndex = startIndex + index;
 
         const temperature = Math.round(
@@ -67,15 +70,64 @@ function displayHourlyForecast(hourly, currentTime) {
             getWeatherCondition(weatherCode);
 
         const hour = time.substring(11, 16);
+        const icon = condition.split(" ").slice(-1)[0];
 
         return `
             <div class="hourly-card">
                 <p class="hour">${hour}</p>
-                <p class="hour-icon">${condition.split(" ").slice(-1)[0]}</p>
+                <p class="hour-icon">${icon}</p>
                 <p class="hour-temp">${temperature}°C</p>
             </div>
         `;
+    }).join("");
+}
 
+// Display 7-day weather forecast
+function displayDailyForecast(daily) {
+    const dailyContainer =
+        document.getElementById("dailyForecast");
+
+    if (!dailyContainer || !daily || !daily.time ||
+        daily.time.length === 0) {
+        if (dailyContainer) {
+            dailyContainer.textContent =
+                "Daily forecast is unavailable.";
+        }
+        return;
+    }
+
+    dailyContainer.innerHTML = daily.time.map((date, index) => {
+        const dayDate = new Date(date + "T12:00:00");
+
+        const dayName = dayDate.toLocaleDateString("en-US", {
+            weekday: "short"
+        });
+
+        const condition =
+            getWeatherCondition(daily.weather_code[index]);
+
+        const icon = condition.split(" ").slice(-1)[0];
+
+        const maxTemp = Math.round(
+            daily.temperature_2m_max[index]
+        );
+
+        const minTemp = Math.round(
+            daily.temperature_2m_min[index]
+        );
+
+        return `
+            <div class="daily-card">
+                <p class="day">${dayName}</p>
+                <p class="day-icon">${icon}</p>
+                <p class="day-condition">${condition}</p>
+
+                <div class="day-temperatures">
+                    <span class="max-temp">${maxTemp}°</span>
+                    <span class="min-temp">${minTemp}°</span>
+                </div>
+            </div>
+        `;
     }).join("");
 }
 
@@ -97,29 +149,32 @@ async function getWeather(city) {
         const geoData = await geoResponse.json();
 
         if (!geoData.results || geoData.results.length === 0) {
-            throw new Error("City not found. Please enter a valid city name.");
+            throw new Error(
+                "City not found. Please enter a valid city name."
+            );
         }
 
         const location = geoData.results[0];
+
         const latitude = location.latitude;
         const longitude = location.longitude;
 
-        // Step 2: Get current weather
-      
-const weatherUrl =
-    `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,precipitation&hourly=temperature_2m,weather_code&timezone=auto`;
-
+        // Step 2: Get current, hourly and daily weather
+        const weatherUrl =
+            `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,precipitation&hourly=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&forecast_days=7&timezone=auto`;
 
         const weatherResponse = await fetch(weatherUrl);
 
         if (!weatherResponse.ok) {
-            throw new Error("Unable to fetch weather information.");
+            throw new Error(
+                "Unable to fetch weather information."
+            );
         }
 
         const weatherData = await weatherResponse.json();
         const current = weatherData.current;
 
-        // Step 3: Update dashboard
+        // Step 3: Update current weather
         document.getElementById("weatherCity").textContent =
             `${location.name}, ${location.country}`;
 
@@ -129,29 +184,37 @@ const weatherUrl =
         document.getElementById("weatherCondition").textContent =
             getWeatherCondition(current.weather_code);
 
-            
-// Display feels-like temperature
-document.getElementById("feelsLike").textContent =
-    Math.round(current.apparent_temperature);
+        // Display feels-like temperature
+        document.getElementById("feelsLike").textContent =
+            Math.round(current.apparent_temperature);
 
-// Display last updated time
-document.getElementById("lastUpdated").textContent =
-    `Last updated: ${current.time.replace("T", " ")}`;
+        // Display last updated time
+        document.getElementById("lastUpdated").textContent =
+            `Last updated: ${current.time.replace("T", " ")}`;
 
-
+        // Display humidity
         document.getElementById("humidity").textContent =
             `${current.relative_humidity_2m}%`;
 
+        // Display wind speed
+        document.getElementById("windSpeed").textContent =
+            `${current.wind_speed_10m} km/h`;
+
+        // Display precipitation
         document.getElementById("precipitation").textContent =
-    `${current.precipitation} mm`;
-    
-displayHourlyForecast(
-    weatherData.hourly,
-    current.time
-);
+            `${current.precipitation} mm`;
 
+        // Display hourly forecast
+        displayHourlyForecast(
+            weatherData.hourly,
+            current.time
+        );
 
-        statusMessage.textContent = "Weather updated successfully!";
+        // Display 7-day forecast
+        displayDailyForecast(weatherData.daily);
+
+        statusMessage.textContent =
+            "Weather updated successfully!";
 
     } catch (error) {
         statusMessage.textContent = error.message;
@@ -165,7 +228,8 @@ searchForm.addEventListener("submit", function (event) {
     const city = cityInput.value.trim();
 
     if (city === "") {
-        statusMessage.textContent = "Please enter a city name.";
+        statusMessage.textContent =
+            "Please enter a city name.";
         return;
     }
 

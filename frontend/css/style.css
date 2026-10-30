@@ -217,5 +217,72 @@ button:hover {
     }
 }
 
+/* 7-Day Weather Forecast */
+
+.daily-section {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 25px;
+}
+
+.daily-section h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.daily-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.daily-card {
+    background: white;
+    padding: 20px 10px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 12px #00000012;
+}
+
+.daily-card .day {
+    font-weight: bold;
+    color: #334155;
+}
+
+.daily-card .day-icon {
+    font-size: 28px;
+    margin: 12px 0;
+}
+
+.daily-card .day-condition {
+    font-size: 12px;
+    color: #64748b;
+    min-height: 30px;
+}
+
+.daily-card .day-temperatures {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.daily-card .max-temp {
+    font-weight: bold;
+    color: #2563eb;
+}
+
+.daily-card .min-temp {
+    color: #64748b;
+}
+
+@media (max-width: 600px) {
+    .daily-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
 
 
