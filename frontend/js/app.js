@@ -58,8 +58,8 @@ async function getWeather(city) {
         const longitude = location.longitude;
 
         // Step 2: Get current weather
-        const weatherUrl =
-            `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m&timezone=auto`;
+       const weatherUrl =
+    `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,precipitation&timezone=auto`;
 
         const weatherResponse = await fetch(weatherUrl);
 
@@ -93,8 +93,8 @@ document.getElementById("lastUpdated").textContent =
         document.getElementById("humidity").textContent =
             `${current.relative_humidity_2m}%`;
 
-        document.getElementById("windSpeed").textContent =
-            `${current.wind_speed_10m} km/h`;
+        document.getElementById("precipitation").textContent =
+    `${current.precipitation} mm`;
 
         statusMessage.textContent = "Weather updated successfully!";
 
